@@ -165,9 +165,9 @@
         <p class="subtitle">Documentacion automatica con un clic</p>
         
         <div class="branding">
-            <strong>Presentado por DAVOHOMEHOUSE</strong> · 
-            <strong>Tecnologia VALKYRIE FIRE WIND</strong> · 
-            <strong>Hecho por zirak9</strong>
+            <strong>Desarrollado por zirak9</strong> · 
+            <strong>Impulsado por DAVOHOMEHOUSE</strong> · 
+            <strong>Con tecnologia VALKYRIE FIRE WIND</strong>
         </div>
         
         <div class="info">
@@ -198,8 +198,8 @@
         <div id="estado"></div>
         
         <div class="footer">
-            DocuKit v1.0 · Sin dependencias
-            <div class="version">DAVOHOMEHOUSE · VALKYRIE FIRE WIND · zirak9</div>
+            DocuKit v1.1 · Sin dependencias
+            <div class="version">zirak9 · DAVOHOMEHOUSE · VALKYRIE FIRE WIND</div>
         </div>
     </div>
     
@@ -267,12 +267,32 @@
             Set shell = CreateObject("WScript.Shell")
             Set fso = CreateObject("Scripting.FileSystemObject")
             
-            archivo = rutaProyecto & "\Reportes\BITACORA_PROYECTO.md"
+            ' Buscar primero BITACORA_ULTIMO.md (el más reciente)
+            archivo = rutaProyecto & "\Reportes\BITACORA_ULTIMO.md"
+            
+            ' Si no existe, buscar BITACORA_PROYECTO.md (versión antigua)
+            If Not fso.FileExists(archivo) Then
+                archivo = rutaProyecto & "\Reportes\BITACORA_PROYECTO.md"
+            End If
+            
+            ' Si no existe, buscar cualquier BITACORA_*.md
+            If Not fso.FileExists(archivo) Then
+                Dim carpeta, archivos, objFile
+                Set carpeta = fso.GetFolder(rutaProyecto & "\Reportes")
+                Set archivos = carpeta.Files
+                
+                For Each objFile In archivos
+                    If InStr(objFile.Name, "BITACORA_") > 0 And InStr(objFile.Name, ".md") > 0 Then
+                        archivo = objFile.Path
+                        Exit For
+                    End If
+                Next
+            End If
             
             If fso.FileExists(archivo) Then
                 shell.Run "notepad """ & archivo & """"
             Else
-                MsgBox "No se encontro BITACORA_PROYECTO.md." & vbCrLf & _
+                MsgBox "No se encontro ningun archivo BITACORA_.md" & vbCrLf & _
                        "Primero documenta el proyecto.", vbInformation, "DocuKit"
             End If
         End Sub
