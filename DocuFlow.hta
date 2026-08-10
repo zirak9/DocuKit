@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>DocuKit - Documentacion Automatica</title>
+    <hta:application id="oApp" 
+        applicationname="DocuKit" 
+        border="thin" 
+        caption="yes" 
+        showintaskbar="yes" 
+        singleinstance="yes" 
+        windowstate="normal" 
+        maximizable="no"
+    />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+            background: #f0f2f5;
+            padding: 30px;
+            margin: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        h1 {
+            color: #2c3e50;
+            margin-top: 0;
+            font-size: 28px;
+            text-align: center;
+        }
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .branding {
+            text-align: center;
+            font-size: 12px;
+            color: #95a5a6;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+        .branding strong {
+            color: #2c3e50;
+        }
+        .btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            margin: 8px 0;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            opacity: 0.85;
+            transform: scale(1.02);
+        }
+        .btn-success {
+            background: #27ae60;
+        }
+        .btn-success:hover {
+            background: #229954;
+        }
+        .btn-warning {
+            background: #f39c12;
+        }
+        .btn-warning:hover {
+            background: #d68910;
+        }
+        .btn-danger {
+            background: #e74c3c;
+        }
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+        .info {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+        .info strong {
+            color: #2c3e50;
+        }
+        .tipos {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 15px 0;
+        }
+        .tipo-btn {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .tipo-btn:hover {
+            border-color: #3498db;
+            background: #ebf5fb;
+        }
+        .tipo-btn.seleccionado {
+            border-color: #27ae60;
+            background: #eafaf1;
+            box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.3);
+        }
+        .footer {
+            font-size: 12px;
+            color: #95a5a6;
+            text-align: center;
+            margin-top: 20px;
+            border-top: 1px solid #ecf0f1;
+            padding-top: 15px;
+        }
+        #estado {
+            margin-top: 15px;
+            padding: 12px;
+            background: #fff3cd;
+            border-radius: 6px;
+            display: none;
+            font-weight: bold;
+            border-left: 4px solid #f39c12;
+        }
+        #estado.ok {
+            background: #d4edda;
+            border-left-color: #27ae60;
+        }
+        .ruta-proyecto {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            word-break: break-all;
+        }
+        .version {
+            font-size: 11px;
+            color: #bdc3c7;
+            text-align: center;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DocuKit</h1>
+        <p class="subtitle">Documentacion automatica con un clic</p>
+        
+        <div class="branding">
+            <strong>Presentado por DAVOHOMEHOUSE</strong> · 
+            <strong>Tecnologia VALKYRIE FIRE WIND</strong> · 
+            <strong>Hecho por zirak9</strong>
+        </div>
+        
+        <div class="info">
+            <strong>Proyecto:</strong>
+            <div class="ruta-proyecto" id="ruta">Cargando...</div>
+        </div>
+        
+        <p style="font-size:14px; margin:10px 0 5px 0; font-weight:bold;">Selecciona tu perfil:</p>
+        <div class="tipos" id="tiposContainer">
+            <button class="tipo-btn" onclick="seleccionarTipo('disenador')">Disenador</button>
+            <button class="tipo-btn" onclick="seleccionarTipo('escritor')">Escritor</button>
+            <button class="tipo-btn" onclick="seleccionarTipo('desarrollador')">Desarrollador</button>
+            <button class="tipo-btn" onclick="seleccionarTipo('generico')">Generico</button>
+        </div>
+        
+        <button class="btn btn-success" onclick="documentar()">
+            Documentar ahora
+        </button>
+        
+        <button class="btn btn-warning" onclick="abrirBitacora()">
+            Ver bitacora
+        </button>
+        
+        <button class="btn btn-danger" onclick="abrirReportes()">
+            Abrir carpeta Reportes
+        </button>
+        
+        <div id="estado"></div>
+        
+        <div class="footer">
+            DocuKit v1.0 · Sin dependencias
+            <div class="version">DAVOHOMEHOUSE · VALKYRIE FIRE WIND · zirak9</div>
+        </div>
+    </div>
+    
+    <script language="VBScript">
+        Dim tipoSeleccionado
+        Dim rutaProyecto
+        
+        Sub Window_OnLoad
+            Dim shell, fso
+            Set shell = CreateObject("WScript.Shell")
+            Set fso = CreateObject("Scripting.FileSystemObject")
+            
+            rutaProyecto = fso.GetParentFolderName(shell.CurrentDirectory)
+            document.getElementById("ruta").innerHTML = rutaProyecto
+            tipoSeleccionado = ""
+        End Sub
+        
+        Sub seleccionarTipo(tipo)
+            tipoSeleccionado = tipo
+            
+            Dim botones, btn
+            Set botones = document.getElementById("tiposContainer").getElementsByTagName("button")
+            
+            For Each btn In botones
+                btn.className = "tipo-btn"
+            Next
+            
+            For Each btn In botones
+                If InStr(btn.innerText, tipo) > 0 Or InStr(btn.innerText, UCase(tipo)) > 0 Then
+                    btn.className = "tipo-btn seleccionado"
+                End If
+            Next
+        End Sub
+        
+        Sub documentar()
+            If tipoSeleccionado = "" Then
+                MsgBox "Por favor, selecciona un tipo de proyecto primero.", vbExclamation, "DocuKit"
+                Exit Sub
+            End If
+            
+            Dim shell, fso, estadoDiv
+            Set shell = CreateObject("WScript.Shell")
+            Set fso = CreateObject("Scripting.FileSystemObject")
+            
+            Set estadoDiv = document.getElementById("estado")
+            estadoDiv.style.display = "block"
+            estadoDiv.className = ""
+            estadoDiv.innerHTML = "Documentando proyecto " & tipoSeleccionado & "... Por favor espera"
+            
+            shell.CurrentDirectory = rutaProyecto
+            
+            Dim comando
+            comando = "python """ & rutaProyecto & "\DocuKit\docufy_engine.py"" " & tipoSeleccionado
+            shell.Run comando, 1, True
+            
+            estadoDiv.className = "ok"
+            estadoDiv.innerHTML = "Documentacion completada. Revisa la carpeta 'Reportes/'"
+            
+            MsgBox "Proyecto documentado exitosamente." & vbCrLf & _
+                   "Revision: carpeta 'Reportes/'", vbInformation, "DocuKit"
+        End Sub
+        
+        Sub abrirBitacora()
+            Dim shell, fso, archivo
+            Set shell = CreateObject("WScript.Shell")
+            Set fso = CreateObject("Scripting.FileSystemObject")
+            
+            archivo = rutaProyecto & "\Reportes\BITACORA_PROYECTO.md"
+            
+            If fso.FileExists(archivo) Then
+                shell.Run "notepad """ & archivo & """"
+            Else
+                MsgBox "No se encontro BITACORA_PROYECTO.md." & vbCrLf & _
+                       "Primero documenta el proyecto.", vbInformation, "DocuKit"
+            End If
+        End Sub
+        
+        Sub abrirReportes()
+            Dim shell, fso, carpeta
+            Set shell = CreateObject("WScript.Shell")
+            Set fso = CreateObject("Scripting.FileSystemObject")
+            
+            carpeta = rutaProyecto & "\Reportes"
+            
+            If fso.FolderExists(carpeta) Then
+                shell.Run "explorer """ & carpeta & """"
+            Else
+                MsgBox "No existe la carpeta 'Reportes'." & vbCrLf & _
+                       "Primero documenta el proyecto.", vbInformation, "DocuKit"
+            End If
+        End Sub
+    </script>
+</body>
+</html>

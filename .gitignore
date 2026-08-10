@@ -1,0 +1,33 @@
+# Archivos generados por DocuKit (no subir)
+BITACORA_PROYECTO.md
+DOCUFY_DATA.json
+RESUMEN_PROYECTO.txt
+*.md.old
+Reportes/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Entornos virtuales
+venv/
+env/
+ENV/
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Sistema
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Logs
+*.log
